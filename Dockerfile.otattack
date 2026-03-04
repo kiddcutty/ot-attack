@@ -1,0 +1,81 @@
+# Stage 1: Builder
+FROM python:3.9-slim AS builder
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libnetfilter-queue-dev \
+    libnfnetlink-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Build pre-compiled binaries for python packages
+RUN pip wheel --wheel-dir=/root/wheels NetfilterQueue scapy
+
+# Stage 2: Final Image
+FROM debian:stable-slim
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+COPY --from=builder /usr/local /usr/local/
+RUN ldconfig
+
+COPY --from=builder /root/wheels /root/wheels
+
+
+
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \ 
+    ca-certificates \
+    curl \
+    gnupg2 \
+    git \
+    mbpoll \
+    iputils-ping \
+    procps \
+    vim-tiny \
+    iptables \
+    ettercap-text-only \
+    libnetfilter-queue1 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python Modules
+RUN pip install --no-index --find-links=/root/wheels NetfilterQueue scapy && \
+    rm -rf /root/wheels   
+
+# Install Metasploit Framework (msfconsole)/Remove unused modules
+RUN curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > msfinstall && \
+    chmod 755 msfinstall && \
+    ./msfinstall && \
+    mkdir -p /tmp/msf_backup && \
+    cd /opt/metasploit-framework/embedded/framework/modules/ && \
+    cp --parents -rv ./exploits/windows/scada ./exploits/multi/scada ./auxiliary/scanner/scada ./auxiliary/dos/scada ./auxiliary/admin/scada /tmp/msf_backup && \
+    rm -rf /opt/metasploit-framework/embedded/framework/modules/* && \
+    cp -rv /tmp/msf_backup/* /opt/metasploit-framework/embedded/framework/modules/ && \
+    # Clear the Omnibus package manager cache
+    rm -rf /tmp/msf_backup /msfinstall /var/lib/apt/lists/*
+
+# Set the default working directory
+WORKDIR /exploits
+
+# Clone exploit repositories from Github and set permissions
+RUN git clone --depth 1 https://github.com/kiddcutty/ncrept_modbuster.git && \
+    git clone --depth 1 https://github.com/kiddcutty/OPLC-Functions.git && \
+    git clone --depth 1 https://github.com/kiddcutty/FUXA-Inject.git && \
+    git clone --depth 1 https://github.com/kiddcutty/FUXA-Deface.git 
+
+
+# Move local exploits and specific modbus ruby script
+COPY ./exploits /exploits/
+
+# Move script and set permissions
+RUN if [ -f ./modbusclient_nm.rb ]; then \
+    cp ./modbusclient_nm.rb /opt/metasploit-framework/embedded/framework/modules/auxiliary/scanner/scada/modbusclient_nm.rb && \
+    rm ./modbusclient_nm.rb; \
+    fi && \
+    chmod -R +x /exploits
+
+
+# Default command
+CMD ["/bin/bash"]
