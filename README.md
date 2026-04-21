@@ -3,7 +3,7 @@
 1. Download repository files
    ```git clone https://github.com/kiddcutty/ot-attack.git```
 2. Build container
-   ```docker build -f Dockerfile.otattack```
+   ```docker build -f Dockerfile.otattack -t ot-attack .```
 3. Run container
    ```docker run --name ot-attack -d --rm --cap-add=NET_ADMIN --privileged --network main ot-attack```
 
