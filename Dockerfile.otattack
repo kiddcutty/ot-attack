@@ -61,10 +61,10 @@ RUN curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/conf
 WORKDIR /exploits
 
 # Clone exploit repositories from Github and set permissions
-RUN git clone --depth 1 https://github.com/kiddcutty/ncrept_modbuster.git && \
-    git clone --depth 1 https://github.com/kiddcutty/OPLC-Functions.git && \
-    git clone --depth 1 https://github.com/kiddcutty/FUXA-Inject.git && \
-    git clone --depth 1 https://github.com/kiddcutty/FUXA-Deface.git 
+RUN git clone https://github.com/kiddcutty/ncrept_modbuster.git && \
+    git clone https://github.com/kiddcutty/OPLC-Functions.git && \
+    git clone https://github.com/kiddcutty/FUXA-Inject.git && \
+    git clone https://github.com/kiddcutty/FUXA-Deface.git 
 
 
 # Move local exploits and specific modbus ruby script
