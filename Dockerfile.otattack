@@ -38,6 +38,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     iptables \
     ettercap-text-only \
     libnetfilter-queue1 \
+    iproute2 \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python Modules
@@ -68,6 +69,8 @@ RUN git clone --depth 1 https://github.com/kiddcutty/ncrept_modbuster.git && \
 
 # Move local exploits and specific modbus ruby script
 COPY ./exploits /exploits/
+COPY startup.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/startup.sh
 
 # Move script and set permissions
 RUN if [ -f ./modbusclient_nm.rb ]; then \
@@ -76,6 +79,4 @@ RUN if [ -f ./modbusclient_nm.rb ]; then \
     fi && \
     chmod -R +x /exploits
 
-
-# Default command
-CMD ["/bin/bash"]
+ENTRYPOINT ["/bin/bash", "/usr/local/bin/startup.sh"]
