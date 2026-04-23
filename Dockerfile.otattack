@@ -69,6 +69,8 @@ RUN git clone https://github.com/kiddcutty/ncrept_modbuster.git && \
 
 # Move local exploits and specific modbus ruby script
 COPY ./exploits /exploits/
+COPY ./etter.conf /etc/ettercap/etter.conf
+RUN chmod 644 /etc/ettercap/etter.conf
 COPY startup.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/startup.sh
 
