@@ -39,6 +39,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ettercap-text-only \
     libnetfilter-queue1 \
     iproute2 \
+    hping3 \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python Modules
