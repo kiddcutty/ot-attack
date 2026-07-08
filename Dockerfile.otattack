@@ -83,4 +83,4 @@ RUN if [ -f ./modbusclient_nm.rb ]; then \
     fi && \
     chmod -R +x /exploits
 
-ENTRYPOINT ["/bin/bash", "/usr/local/bin/startup.sh"]
+CMD ["sleep", "infinity"]
