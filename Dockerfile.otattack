@@ -73,7 +73,7 @@ RUN git clone https://github.com/kiddcutty/ncrept_modbuster.git && \
 COPY ./exploits /exploits/
 COPY ./etter.conf /etc/ettercap/etter.conf
 RUN chmod 644 /etc/ettercap/etter.conf
-RUN chmod +x /usr/local/bin/startup.sh
+
 
 # Move script and set permissions
 RUN if [ -f ./modbusclient_nm.rb ]; then \
