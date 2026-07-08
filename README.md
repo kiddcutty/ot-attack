@@ -16,6 +16,3 @@
 ## To run NCREPT Modbuster 
 On host machine run
 ```sudo modprobe nfnetlink queue```  
-
-On OT-Attack container run
-```iptables -A FORWARD -j NFQUEUE -queue-num 1```
