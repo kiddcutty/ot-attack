@@ -2,6 +2,7 @@
 
 1. Download repository files
    ```git clone https://github.com/kiddcutty/ot-attack.git```  
+2. Navigate to *ot-attack* directory
    ```cd ot-attack/```
 3. Build container
    ```docker build -f Dockerfile.otattack -t ot-attack .```
