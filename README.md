@@ -1,7 +1,7 @@
 # Instructions for building and running OT-Attack container
 
 1. Download repository files
-   ```git clone https://github.com/kiddcutty/ot-attack.git```
+   ```git clone https://github.com/kiddcutty/ot-attack.git```  
    ```cd ot-attack/```
 3. Build container
    ```docker build -f Dockerfile.otattack -t ot-attack .```
