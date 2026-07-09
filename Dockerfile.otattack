@@ -67,7 +67,7 @@ WORKDIR /exploits
 RUN git clone https://github.com/kiddcutty/ncrept_modbuster.git && \
     git clone https://github.com/kiddcutty/OPLC-Functions.git && \
     git clone https://github.com/kiddcutty/FUXA-Inject.git && \
-    git clone https://github.com/kiddcutty/FUXA-Deface.git && \
+    git clone https://github.com/kiddcutty/FUXA-Deface.git 
 
 
 
