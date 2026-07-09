@@ -36,6 +36,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     iputils-ping \
     procps \
     vim-tiny \
+    hping3 \
     iptables \
     ettercap-text-only \
     libnetfilter-queue1 \
@@ -67,7 +68,7 @@ RUN git clone https://github.com/kiddcutty/ncrept_modbuster.git && \
     git clone https://github.com/kiddcutty/OPLC-Functions.git && \
     git clone https://github.com/kiddcutty/FUXA-Inject.git && \
     git clone https://github.com/kiddcutty/FUXA-Deface.git && \
-    git clone https://github.com/Destroyer-official/NetStress.git && cd NetStress && pip install -r requirements.txt
+
 
 
 # Move local exploits and specific modbus ruby script
@@ -83,4 +84,6 @@ RUN if [ -f ./modbusclient_nm.rb ]; then \
     fi && \
     chmod -R +x /exploits
 
+#Clean up NetStress Repo files
+RUN rm -rf 
 CMD ["sleep", "infinity"]
